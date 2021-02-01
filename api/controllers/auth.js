@@ -1,6 +1,9 @@
 const { response } = require("express");
 const bcrypt = require("bcryptjs");
 
+// JWT
+const { generateJWT } = require("../helpers/jwt");
+
 // Models
 const User = require("../models/Users");
 
@@ -22,15 +25,19 @@ const createUser = async (req, res = response) => {
 
     await user.save();
 
+    // Generate jwt
+    const token = await generateJWT(user.id, user.name);
+
     res.status(201).json({
       uid: user.id,
       name: user.name,
       email: user.email,
+      token,
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      msg: "Something went wrong, please contact an administrator"
+      msg: "Something went wrong, please contact an administrator",
     });
   }
 };
@@ -38,9 +45,8 @@ const createUser = async (req, res = response) => {
 const loginUser = async (req, res = response) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  
+
   try {
-    
     if (!user) {
       return res.status(400).json({
         msg: "The email or password is incorrect.",
@@ -54,16 +60,19 @@ const loginUser = async (req, res = response) => {
       });
     }
 
+    // Generate jwt
+    const token = await generateJWT(user.id, user.name);
+
     res.status(200).json({
       uid: user.id,
       name: user.name,
       email: user.email,
+      token,
     });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      msg: "Something went wrong, please contact an administrator"
+      msg: "Something went wrong, please contact an administrator",
     });
   }
 };
