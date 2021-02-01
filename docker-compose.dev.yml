@@ -1,0 +1,61 @@
+version: "3.5"
+services:
+  db:
+    image: mongo
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - calendar-data:/data/db
+    networks:
+      - calendar_network
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+
+  api:
+    build:
+      context: ./api/
+      dockerfile: dev.Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+      - static-files:/api/public
+    ports:
+      - "4000:4000"
+    networks:
+      - calendar_network
+    depends_on:
+      - db
+
+  # client:
+  #   build:
+  #     context: ./client/
+  #     dockerfile: dev.Dockerfile
+  #   restart: on-failure
+  #   volumes:
+  #     - ./client:/client
+  #     - /client/node_modules
+  #   ports:
+  #     - "3008:3000"
+  #   networks:
+  #     - calendar_network
+  #   depends_on:
+  #     - api
+
+networks:
+  calendar_network:
+
+volumes:
+  calendar-data:
+  static-files:
