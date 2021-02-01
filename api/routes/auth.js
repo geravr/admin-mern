@@ -7,6 +7,7 @@ const { createUser, loginUser, renewToken } = require("../controllers/auth");
 
 // Middleware
 const { validateFields } = require("../middlewares/field-validators");
+const { validateJWT } = require("../middlewares/jwt-validator");
 
 const validations = {
   nameRequired: check("name", "name is required").not().isEmpty(),
@@ -45,6 +46,6 @@ router.post(
   loginUser
 );
 
-router.get("/renew", renewToken);
+router.post("/renew", validateJWT, renewToken);
 
 module.exports = router;
