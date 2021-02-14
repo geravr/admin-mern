@@ -9,9 +9,9 @@ services:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
-      - calendar-data:/data/db
+      - mongo-data:/data/db
     networks:
-      - calendar_network
+      - db_network
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
 
@@ -30,32 +30,35 @@ services:
     volumes:
       - ./api:/api
       - /api/node_modules
-      - static-files:/api/public
     ports:
       - "4000:4000"
     networks:
-      - calendar_network
+      - db_network
+      - api_network
     depends_on:
       - db
 
-  # client:
-  #   build:
-  #     context: ./client/
-  #     dockerfile: dev.Dockerfile
-  #   restart: on-failure
-  #   volumes:
-  #     - ./client:/client
-  #     - /client/node_modules
-  #   ports:
-  #     - "3008:3000"
-  #   networks:
-  #     - calendar_network
-  #   depends_on:
-  #     - api
+  client:
+    build:
+      context: ./client
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - api
+    command: npm start
+    stdin_open: true
+    networks:
+      - api_network
 
 networks:
-  calendar_network:
+  db_network:
+  api_network:
 
 volumes:
-  calendar-data:
-  static-files:
+  mongo-data:

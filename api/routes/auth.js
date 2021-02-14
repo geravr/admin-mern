@@ -3,49 +3,27 @@ const { check } = require("express-validator");
 const router = Router();
 
 // Constrollers
-const { createUser, loginUser, renewToken } = require("../controllers/auth");
+const { loginUser, whoami } = require("../controllers/auth");
 
 // Middleware
-const { validateFields } = require("../middlewares/field-validators");
+const { validateFields } = require("../middlewares/fields-validator");
 const { validateJWT } = require("../middlewares/jwt-validator");
 
 const validations = {
-  nameRequired: check("name", "name is required").not().isEmpty(),
-  emailRequired: check("email", "email is required").not().isEmpty(),
-  isValidEmail: check("email", "email is incorrect").isEmail(),
+  usernameRequired: check("username", "username is required").not().isEmpty(),
   passwordRequired: check("password", "password is required").not().isEmpty(),
-  isValidPassword: check(
-    "password",
-    "password must be at least 6 characters"
-  ).isLength({
-    min: 6,
-  }),
 };
 
 router.post(
-  "/new",
+  "/obtain",
   [
-    validations.nameRequired,
-    validations.emailRequired,
-    validations.isValidEmail,
-    validations.passwordRequired,
-    validations.isValidPassword,
-    validateFields,
-  ],
-  createUser
-);
-
-router.post(
-  "/",
-  [
-    validations.emailRequired,
-    validations.isValidEmail,
+    validations.usernameRequired,
     validations.passwordRequired,
     validateFields,
   ],
   loginUser
 );
 
-router.post("/renew", validateJWT, renewToken);
+router.get("/whoami", validateJWT, whoami);
 
 module.exports = router;
