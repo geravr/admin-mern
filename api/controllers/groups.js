@@ -74,7 +74,7 @@ const createGroup = async (req, res = response) => {
     await group.save();
 
     res.status(201).json({
-      uid: group.id,
+      id: group.id,
       name: group.name,
       description: group.description,
     });

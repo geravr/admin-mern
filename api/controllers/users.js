@@ -79,7 +79,7 @@ const createUser = async (req, res = response) => {
     const token = await generateJWT(user.id, user.firstName);
 
     res.status(201).json({
-      uid: user.id,
+      id: user.id,
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.username,

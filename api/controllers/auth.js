@@ -29,7 +29,7 @@ const loginUser = async (req, res = response) => {
     const accessToken = await generateJWT(user.id, user.username);
 
     res.status(200).json({
-      uid: user.id,
+      id: user.id,
       username: user.username,
       isAdmin: user.isAdmin,
       group: user.group,
@@ -44,13 +44,13 @@ const loginUser = async (req, res = response) => {
 };
 
 const whoami = async (req, res = response) => {
-  const { uid, username } = req;
+  const { id, username } = req;
 
   // Renew token
-  const accessToken = await generateJWT(uid, username);
+  const accessToken = await generateJWT(id, username);
 
   try {
-    const user = await User.findById(uid, "-_id username email group isAdmin");
+    const user = await User.findById(id, "username email group isAdmin");
     res.json({
       results: [{
         token: { access: accessToken },
