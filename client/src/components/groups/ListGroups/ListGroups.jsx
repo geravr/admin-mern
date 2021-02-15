@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 // Ant Design
 import { Button, Table, Tag, Space } from "antd";
 import { EditOutlined, UserDeleteOutlined } from "@ant-design/icons";
+// Utils
+import { getUserLS } from "@utils/userLocalStorage";
 
 const ListGroups = (props) => {
   /*************** Destructuring ***************/
@@ -15,6 +17,8 @@ const ListGroups = (props) => {
     showModalEditGroup,
     showModalDeleteGroup,
   } = props;
+
+  const currentUser = getUserLS();
 
   return (
     <Table
@@ -69,6 +73,7 @@ const ListGroups = (props) => {
               type="link"
               style={{ color: "#000" }}
               onClick={() => showModalEditGroup(id, row.name)}
+              disabled={(row.name === 'readOnly' || 'editor') && !currentUser.isAdmin}
             >
               <EditOutlined style={{ fontSize: "18px", color: "#ffc53d" }} />{" "}
               Editar
@@ -77,6 +82,7 @@ const ListGroups = (props) => {
               type="link"
               style={{ color: "#000" }}
               onClick={() => showModalDeleteGroup(id, row.name)}
+              disabled={(row.name === 'readOnly' || 'editor') && !currentUser.isAdmin}
             >
               <UserDeleteOutlined
                 style={{ fontSize: "18px", color: "#ff7a45" }}

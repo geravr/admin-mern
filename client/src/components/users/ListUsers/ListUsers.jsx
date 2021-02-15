@@ -10,6 +10,9 @@ import {
   CloseCircleTwoTone,
 } from "@ant-design/icons";
 
+// Utils
+import { getUserLS } from "@utils/userLocalStorage";
+
 const ListUsers = (props) => {
   /*************** Destructuring ***************/
   const {
@@ -20,6 +23,8 @@ const ListUsers = (props) => {
     showModalEditUser,
     showModalDeleteUser,
   } = props;
+
+  const currentUser = getUserLS();
 
   return (
     <Table
@@ -104,6 +109,7 @@ const ListUsers = (props) => {
               type="link"
               style={{ color: "#000" }}
               onClick={() => showModalEditUser(id, row.username)}
+              disabled={(row.isAdmin || currentUser.id === id) && !currentUser.isAdmin}
             >
               <EditOutlined style={{ fontSize: "18px", color: "#ffc53d" }} />{" "}
               Editar
@@ -112,6 +118,7 @@ const ListUsers = (props) => {
               type="link"
               style={{ color: "#000" }}
               onClick={() => showModalDeleteUser(id, row.username)}
+              disabled={(row.isAdmin || currentUser.id === id) && !currentUser.isAdmin}
             >
               <UserDeleteOutlined
                 style={{ fontSize: "18px", color: "#ff7a45" }}

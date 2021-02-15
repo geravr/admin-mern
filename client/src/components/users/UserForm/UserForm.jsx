@@ -7,6 +7,9 @@ import { Col, Row, Space, Form, Button, Input, Switch, Select } from "antd";
 // Hooks
 import useFetch from "@hooks/useFetch";
 
+// Utils
+import { getUserLS } from "@utils/userLocalStorage";
+
 const UserForm = (props) => {
   /*************** Destructuring ***************/
   const {
@@ -16,6 +19,8 @@ const UserForm = (props) => {
     isUpdateUser,
     initialValues,
   } = props;
+
+  const currentUser = getUserLS();
 
   /*************** States ***************/
   const [isAdminUser, setIsAdminUser] = useState(
@@ -130,6 +135,7 @@ const UserForm = (props) => {
             <Switch
               data-testid="switch-admin-button"
               onChange={handleSwitchAdminChange}
+              disabled={!currentUser.isAdmin}
             />
           </Form.Item>
         </Col>
