@@ -27,11 +27,12 @@ services:
       DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT}
     volumes:
       - ./api:/api
       - /api/node_modules
     ports:
-      - "4000:4000"
+      - ${SERVER_PORT}:${SERVER_PORT}
     networks:
       - db_network
       - api_network
@@ -51,7 +52,6 @@ services:
       - NODE_ENV=development
     depends_on:
       - api
-    command: npm start
     stdin_open: true
     networks:
       - api_network
