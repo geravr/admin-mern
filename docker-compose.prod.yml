@@ -52,7 +52,7 @@ services:
 networks:
   db_network:
   proxy-manager-net:
-  external: true
+    external: true
 
 volumes:
   mongo-data:
