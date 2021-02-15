@@ -12,8 +12,6 @@ services:
       - mongo-data:/data/db
     networks:
       - db_network
-    ports:
-      - ${DATABASE_PORT}:${DATABASE_PORT}
 
   api:
     build:
@@ -31,8 +29,6 @@ services:
     volumes:
       - ./api:/api
       - /api/node_modules
-    ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
     networks:
       - db_network
       - proxy-manager-net
