@@ -22,6 +22,6 @@ app.use("/api/v1/users", require("./routes/users"));
 app.use("/api/v1/auth", require("./routes/auth"));
 
 // Listen requests
-app.listen(process.env.PORT, () => {
+app.listen(process.env.SERVER_PORT, () => {
   console.log("Running server");
 });
