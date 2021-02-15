@@ -35,6 +35,7 @@ services:
       - ${SERVER_PORT}:${SERVER_PORT}
     networks:
       - db_network
+      - proxy-manager-net
     depends_on:
       - db
 
@@ -48,12 +49,16 @@ services:
       - "8021:8021"
     environment:
       - NODE_ENV=production
+    networks:
+    - proxy-manager-net
     depends_on:
       - api
     stdin_open: true
 
 networks:
   db_network:
+  proxy-manager-net:
+  external: true
 
 volumes:
   mongo-data:
