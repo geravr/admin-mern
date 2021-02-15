@@ -16,4 +16,6 @@ FROM nginx:1.17.8-alpine
 
 COPY --from=build /client/build /usr/share/nginx/html
 
+EXPOSE 8021
+
 CMD ["nginx", "-g", "daemon off;"]
