@@ -35,7 +35,6 @@ services:
       - ${SERVER_PORT}:${SERVER_PORT}
     networks:
       - db_network
-      - api_network
     depends_on:
       - db
 
@@ -53,12 +52,9 @@ services:
     depends_on:
       - api
     stdin_open: true
-    networks:
-      - api_network
 
 networks:
   db_network:
-  api_network:
 
 volumes:
   mongo-data:
