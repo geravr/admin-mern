@@ -1,6 +1,6 @@
 FROM node:12.16.3-buster
 
-COPY ["package.json", "package-lock.json", "/client/"]
+COPY ["package*.json", "/client/"]
 
 WORKDIR /client
 
