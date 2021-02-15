@@ -35,3 +35,9 @@ code {
 .user-avatar span {
   cursor: pointer;
 }
+
+.disabled-button {
+  span, span svg {
+    color: #cccccc;
+  }
+}

@@ -67,30 +67,35 @@ const ListGroups = (props) => {
       <Table.Column
         title="Acción"
         dataIndex="id"
-        render={(id, row) => (
-          <Space size="middle">
-            <Button
-              type="link"
-              style={{ color: "#000" }}
-              onClick={() => showModalEditGroup(id, row.name)}
-              disabled={(row.name === 'readOnly' || row.name === 'editor') && !currentUser.isAdmin}
-            >
-              <EditOutlined style={{ fontSize: "18px", color: "#ffc53d" }} />{" "}
+        render={(id, row) => {
+          const isDisabled = (row.name === 'readOnly' || row.name === 'editor') && !currentUser.isAdmin;
+          return (
+            <Space size="middle">
+              <Button
+                type="link"
+                style={{ color: "#000" }}
+                className={isDisabled && "disabled-button"}
+                onClick={() => showModalEditGroup(id, row.name)}
+                disabled={isDisabled}
+              >
+                <EditOutlined style={{ fontSize: "18px", color: "#ffc53d" }} />{" "}
               Editar
             </Button>
-            <Button
-              type="link"
-              style={{ color: "#000" }}
-              onClick={() => showModalDeleteGroup(id, row.name)}
-              disabled={(row.name === 'readOnly' || row.name === 'editor') && !currentUser.isAdmin}
-            >
-              <UserDeleteOutlined
-                style={{ fontSize: "18px", color: "#ff7a45" }}
-              />{" "}
+              <Button
+                type="link"
+                style={{ color: "#000" }}
+                className={isDisabled && "disabled-button"}
+                onClick={() => showModalDeleteGroup(id, row.name)}
+                disabled={isDisabled}
+              >
+                <UserDeleteOutlined
+                  style={{ fontSize: "18px", color: "#ff7a45" }}
+                />{" "}
               Eliminar
             </Button>
-          </Space>
-        )}
+            </Space>
+          )
+        }}
       />
     </Table>
   );

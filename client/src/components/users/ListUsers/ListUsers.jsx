@@ -59,8 +59,8 @@ const ListUsers = (props) => {
             {isActive ? (
               <CheckCircleTwoTone twoToneColor="#52c41a" />
             ) : (
-              <CloseCircleTwoTone twoToneColor="#fa541c" />
-            )}
+                <CloseCircleTwoTone twoToneColor="#fa541c" />
+              )}
           </>
         )}
       />
@@ -74,8 +74,8 @@ const ListUsers = (props) => {
             {isAdmin ? (
               <CheckCircleTwoTone twoToneColor="#52c41a" />
             ) : (
-              <CloseCircleTwoTone twoToneColor="#fa541c" />
-            )}
+                <CloseCircleTwoTone twoToneColor="#fa541c" />
+              )}
           </>
         )}
       />
@@ -103,30 +103,35 @@ const ListUsers = (props) => {
       <Table.Column
         title="Acción"
         dataIndex="id"
-        render={(id, row) => (
-          <Space size="middle">
-            <Button
-              type="link"
-              style={{ color: "#000" }}
-              onClick={() => showModalEditUser(id, row.username)}
-              disabled={(row.isAdmin || currentUser.id === id) && !currentUser.isAdmin}
-            >
-              <EditOutlined style={{ fontSize: "18px", color: "#ffc53d" }} />{" "}
+        render={(id, row) => {
+          const isDisabled = (row.isAdmin || currentUser.id === id) && !currentUser.isAdmin;
+          return (
+            <Space size="middle">
+              <Button
+                type="text"
+                style={{ color: "#000" }}
+                className={isDisabled && "disabled-button"}
+                onClick={() => showModalEditUser(id, row.username)}
+                disabled={isDisabled}
+              >
+                <EditOutlined style={{ fontSize: "18px", color: "#ffc53d" }} />{" "}
               Editar
             </Button>
-            <Button
-              type="link"
-              style={{ color: "#000" }}
-              onClick={() => showModalDeleteUser(id, row.username)}
-              disabled={(row.isAdmin || currentUser.id === id) && !currentUser.isAdmin}
-            >
-              <UserDeleteOutlined
-                style={{ fontSize: "18px", color: "#ff7a45" }}
-              />{" "}
+              <Button
+                type="text"
+                style={{ color: "#000" }}
+                className={isDisabled && "disabled-button"}
+                onClick={() => showModalDeleteUser(id, row.username)}
+                disabled={isDisabled}
+              >
+                <UserDeleteOutlined
+                  style={{ fontSize: "18px", color: "#ff7a45" }}
+                />{" "}
               Eliminar
             </Button>
-          </Space>
-        )}
+            </Space>
+          )
+        }}
       />
     </Table>
   );
