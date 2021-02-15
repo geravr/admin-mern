@@ -1,0 +1,59 @@
+version: "3.5"
+services:
+  db:
+    image: mongo
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - db_network
+    ports:
+      - ${DATABASE_PORT}:${DATABASE_PORT}
+
+  api:
+    build:
+      context: ./api/
+      dockerfile: prod.Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      SERVER_PORT: ${SERVER_PORT}
+    volumes:
+      - ./api:/api
+      - /api/node_modules
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - db_network
+    depends_on:
+      - db
+
+  client:
+    build:
+      context: ./client
+      dockerfile: prod.Dockerfile
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
+    ports:
+      - "8021:8021"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - api
+    stdin_open: true
+
+networks:
+  db_network:
+
+volumes:
+  mongo-data:
