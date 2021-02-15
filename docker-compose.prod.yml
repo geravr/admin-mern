@@ -41,8 +41,6 @@ services:
       dockerfile: prod.Dockerfile
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/nginx.conf
-    ports:
-      - "8021:8021"
     environment:
       - NODE_ENV=production
     networks:
