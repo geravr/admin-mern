@@ -99,7 +99,7 @@ describe("Cuando el usuario hace blur a un campo vacío", () => {
     ).not.toBeInTheDocument();
 
     fireEvent.blur(firstNameField, {
-      target: { name: "first_name", value: "" },
+      target: { name: "firstName", value: "" },
     });
     fireEvent.blur(userField, {
       target: { name: "username", value: "" },
@@ -111,7 +111,7 @@ describe("Cuando el usuario hace blur a un campo vacío", () => {
       target: { name: "password", value: "" },
     });
     fireEvent.blur(permissionsField, {
-      target: { name: "grups", value: "" },
+      target: { name: "groups", value: "" },
     });
 
     await waitFor(() => {
