@@ -135,7 +135,7 @@ const UserForm = (props) => {
             <Switch
               data-testid="switch-admin-button"
               onChange={handleSwitchAdminChange}
-              disabled={!currentUser.isAdmin}
+              disabled={!currentUser?.isAdmin}
             />
           </Form.Item>
         </Col>
