@@ -9,8 +9,8 @@ const isModalVisible = true;
 const setIsModalVisible = jest.fn();
 const fetchGroups = jest.fn();
 const groupToEdit = {
-  id: 7,
-  name: "test_group",
+  id: "6029d50dd6b2b9002bf08c28",
+  name: "testGroup",
 };
 
 beforeEach(() =>
@@ -42,10 +42,10 @@ describe("Cuando EditGroupModal está montado", () => {
     expect(nameField).toBeInTheDocument();
     expect(permissionsField).toBeInTheDocument();
 
+    // Espera a que se consuma la api que contiene los permisos
     fireEvent.mouseDown(
       screen.getByTestId("permissions-select").firstElementChild
     );
-    // Espera a que se consuma la api que contiene los permisos
     await waitFor(() => {
       expect(screen.queryByTestId("permission-value")).toBeInTheDocument();
     });

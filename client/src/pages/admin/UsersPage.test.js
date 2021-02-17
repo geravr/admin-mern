@@ -27,7 +27,7 @@ describe("Cuando el usuario da clic en el botón 'Nuevo usuario'", () => {
 
     const newUserButton = screen.getByRole("button", {
       name: /Nuevo usuario/i,
-    });  
+    });
 
     userEvent.click(newUserButton);
 
@@ -49,7 +49,7 @@ describe("Cuando el usuario da clic en el botón 'Editar'", () => {
       expect(screen.getByTestId("list-users")).toBeInTheDocument();
     });
 
-    const editUserButton = screen.getByRole("button", { name: /Editar/i });
+    const editUserButton = await waitFor(() => screen.getByRole("button", { name: /Editar/i }));
 
     userEvent.click(editUserButton);
 
@@ -78,7 +78,7 @@ describe("Cuando el usuario da clic en el botón 'Eliminar'", () => {
       expect(screen.getByTestId("list-users")).toBeInTheDocument();
     });
 
-    const deleteUserButton = screen.getByRole("button", { name: /Eliminar/i });
+    const deleteUserButton = await waitFor(() => screen.getByRole("button", { name: /Eliminar/i }));
 
     await waitFor(() => {
       expect(screen.getByTestId("list-users")).toBeInTheDocument();

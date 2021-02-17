@@ -5,8 +5,15 @@ const baseURL = process.env.REACT_APP_BACKEND_API_HOST;
 
 const handlers = [
   /*************** Token ***************/
-  rest.get(`${baseURL}auth/obtain/`, (req, res, ctx) => {
-    return res(ctx.status(201));
+  rest.post(`${baseURL}auth/obtain/`, (req, res, ctx) => {
+    return res(ctx.status(201), ctx.json({
+      id: "6029d587d6b2b9002bf08c2b",
+      isAdmin: false,
+      token: {
+        access: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+      },
+      username: "demo"
+    }));
   }),
   /*************** Permissions ***************/
   rest.get(`${baseURL}permissions/`, (req, res, ctx) => {
@@ -17,10 +24,8 @@ const handlers = [
         totalPages: 1,
         results: [
           {
-            id: 1,
-            name: "Can add log entry",
-            codename: "add_logentry",
-            content_type: 1,
+            id: "6029d50dd6b2b9002bf08c20",
+            name: "Can add - Users",
           },
         ],
       })
@@ -36,17 +41,11 @@ const handlers = [
         totalPages: 1,
         results: [
           {
-            id: 1,
+            id: "6029d50dd6b2b9002bf08c28",
             name: "test",
             permissions: [
-              "Can add log entry",
-              "Can change log entry",
-              "Can delete log entry",
-              "Can view log entry",
-              "Can add group",
-              "Can change group",
-              "Can delete group",
-              "Can view group",
+              { name: "Can read - Groups", id: "6029d50dd6b2b9002bf08c21" },
+              { name: "Can read - Users", id: "6029d50dd6b2b9002bf08c25" }
             ],
           },
         ],
@@ -57,9 +56,11 @@ const handlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        id: 7,
-        name: "test_group",
-        permissions: ["Can delete log entry"],
+        results: [{
+          id: "6029d50dd6b2b9002bf08c28",
+          name: "testGroup",
+          permissions: ["Can delete log entry"],
+        }]
       })
     );
   }),
@@ -82,12 +83,15 @@ const handlers = [
         totalPages: 1,
         results: [
           {
-            first_name: "Gerardo",
-            groups: ["test"],
-            id: 1,
-            is_active: true,
-            is_staff: true,
-            last_name: "Villa",
+            firstName: "Gerardo",
+            groups: [{
+              id: "6029d50dd6b2b9002bf08c29",
+              name: "editor"
+            }],
+            id: "6029d587d6b2b9002bf08c2b",
+            isActive: true,
+            isAdmin: false,
+            lastName: "Villa",
             username: "gerardo",
           },
         ],
@@ -98,17 +102,20 @@ const handlers = [
     return res(
       ctx.status(200),
       ctx.json({
-        id: 7,
-        first_name: "Francisco",
-        last_name: "Sepulveda",
-        username: "paco",
-        email: "pacos@mail.com",
-        groups: ["test"],
-        is_active: true,
-        is_staff: true,
-        updated_at: "2021-01-27T05:46:28.056208Z",
-        created_at: "2021-01-26T05:24:59.553639Z",
-      })
+        results: [
+          {
+            id: "6029d587d6b2b9002bf08c2b",
+            firstName: "Francisco",
+            lastName: "Sepulveda",
+            username: "paco",
+            email: "pacos@mail.com",
+            groups: ["6029d50dd6b2b9002bf08c29"],
+            isActive: true,
+            isAdmin: true,
+          }
+        ]
+      }
+      )
     );
   }),
   rest.post(`${baseURL}users/`, (req, res, ctx) => {

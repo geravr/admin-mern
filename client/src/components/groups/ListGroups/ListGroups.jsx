@@ -68,7 +68,7 @@ const ListGroups = (props) => {
         title="Acción"
         dataIndex="id"
         render={(id, row) => {
-          const isDisabled = (row.name === 'readOnly' || row.name === 'editor') && !currentUser.isAdmin;
+          const isDisabled = (row.name === 'readOnly' || row.name === 'editor') && !currentUser?.isAdmin;
           return (
             <Space size="middle">
               <Button

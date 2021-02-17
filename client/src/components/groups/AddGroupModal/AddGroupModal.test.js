@@ -27,8 +27,10 @@ describe("Cuando AddGroupModal está montado", () => {
     expect(nameField).toBeInTheDocument();
     expect(permissionsField).toBeInTheDocument();
 
-    // Espera a que los permisos se encuentren disponibles
-    userEvent.click(permissionsField);
+    // Espera a que se consuma la api que contiene los permisos
+    fireEvent.mouseDown(
+      screen.getByTestId("permissions-select").firstElementChild
+    );
     await waitFor(() => {
       expect(screen.queryByTestId("permission-value")).toBeInTheDocument();
     });
@@ -41,8 +43,10 @@ describe("Cuando AddGroupModal está montado", () => {
     expect(cancelButton).toBeInTheDocument();
     expect(submitButton).toBeInTheDocument();
 
-    // Espera a que los permisos se encuentren disponibles
-    userEvent.click(screen.getByLabelText(/Permisos/i));
+    // Espera a que se consuma la api que contiene los permisos
+    fireEvent.mouseDown(
+      screen.getByTestId("permissions-select").firstElementChild
+    );
     await waitFor(() => {
       expect(screen.queryByTestId("permission-value")).toBeInTheDocument();
     });
@@ -54,8 +58,10 @@ describe("Cuando el usuario hace blur a un campo vacío", () => {
     const nameField = screen.getByLabelText(/Nombre/i);
     const permissionsField = screen.getByLabelText(/Permisos/i);
 
-    // Comprueba que los permisos se encuentran disponibles
-    userEvent.click(permissionsField);
+    // Espera a que se consuma la api que contiene los permisos
+    fireEvent.mouseDown(
+      screen.getByTestId("permissions-select").firstElementChild
+    );
     await waitFor(() => {
       expect(screen.queryByTestId("permission-value")).toBeInTheDocument();
     });
@@ -115,7 +121,7 @@ describe("Cuando el usuario envía el formulario con valores", () => {
     const submitButton = screen.getByRole("button", { name: "Agregar" });
 
     // Se llenan los inputs requeridos
-    userEvent.type(nameField, "test_group");
+    userEvent.type(nameField, "testGroup");
     fireEvent.mouseDown(
       screen.getByTestId("permissions-select").firstElementChild
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { screen, render, waitFor } from "@testing-library/react";
+import { screen, render, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 // Component
@@ -31,10 +31,14 @@ describe("Cuando el usuario da clic en el botón 'Nuevo grupo'", () => {
 
     userEvent.click(newGroupButton);
 
-    expect(screen.getByTestId("add-group-modal")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("add-group-modal")).toBeInTheDocument();
+    })
 
-    // Espera a que los permisos se encuentren disponibles
-    userEvent.click(screen.getByLabelText(/Permisos/i));
+    // Espera a que se consuma la api que contiene los permisos
+    fireEvent.mouseDown(
+      screen.getByTestId("permissions-select").firstElementChild
+    );
     await waitFor(() => {
       expect(screen.queryByTestId("permission-value")).toBeInTheDocument();
     });
@@ -51,7 +55,9 @@ describe("Cuando el usuario da clic en el botón 'Editar'", () => {
 
     userEvent.click(editGroupButton);
 
-    expect(screen.getByTestId("edit-group-modal")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("edit-group-modal")).toBeInTheDocument();
+    })
 
     // Espera que el skeleton deje de mostrarse
     await waitFor(() => {
@@ -60,8 +66,10 @@ describe("Cuando el usuario da clic en el botón 'Editar'", () => {
       ).not.toBeInTheDocument();
     });
 
-    // Espera a que los permisos se encuentren disponibles
-    userEvent.click(screen.getByLabelText(/Permisos/i));
+    // Espera a que se consuma la api que contiene los permisos
+    fireEvent.mouseDown(
+      screen.getByTestId("permissions-select").firstElementChild
+    );
     await waitFor(() => {
       expect(screen.queryByTestId("permission-value")).toBeInTheDocument();
     });

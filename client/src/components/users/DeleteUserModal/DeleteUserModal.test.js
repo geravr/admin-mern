@@ -9,7 +9,7 @@ const isModalVisible = true;
 const setIsModalVisible = jest.fn();
 const fetchUsers = jest.fn();
 const userToDelete = {
-  id: 7,
+  id: "6029d587d6b2b9002bf08c2b",
   username: "paco",
 };
 

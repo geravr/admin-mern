@@ -9,7 +9,7 @@ const isModalVisible = true;
 const setIsModalVisible = jest.fn();
 const fetchUsers = jest.fn();
 const userToEdit = {
-  id: 7,
+  id: "6029d587d6b2b9002bf08c2b",
   username: "paco",
 };
 
@@ -98,7 +98,7 @@ describe("Cuando EditUserModal está montado", () => {
     const emailValue = screen.getByDisplayValue("pacos@mail.com");
     const isActiveUserValue = screen.getByTestId("switch-active-user-button");
     const isAdminValue = screen.getByTestId("switch-admin-button");
-    const groupsValue = screen.getByText("test");
+    const groupsValue = screen.getByText("6029d50dd6b2b9002bf08c29");
 
     expect(firstNameValue).toBeInTheDocument();
     expect(lastNameValue).toBeInTheDocument();

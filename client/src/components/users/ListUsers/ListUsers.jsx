@@ -104,11 +104,11 @@ const ListUsers = (props) => {
         title="Acción"
         dataIndex="id"
         render={(id, row) => {
-          const isDisabled = (row.isAdmin || currentUser.id === id) && !currentUser.isAdmin;
+          const isDisabled = (row.isAdmin || currentUser?.id === id) && !currentUser?.isAdmin;
           return (
             <Space size="middle">
               <Button
-                type="text"
+                type="link"
                 style={{ color: "#000" }}
                 className={isDisabled && "disabled-button"}
                 onClick={() => showModalEditUser(id, row.username)}
@@ -118,7 +118,7 @@ const ListUsers = (props) => {
               Editar
             </Button>
               <Button
-                type="text"
+                type="link"
                 style={{ color: "#000" }}
                 className={isDisabled && "disabled-button"}
                 onClick={() => showModalDeleteUser(id, row.username)}

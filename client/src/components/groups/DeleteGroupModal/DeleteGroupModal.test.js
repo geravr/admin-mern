@@ -9,8 +9,8 @@ const isModalVisible = true;
 const setIsModalVisible = jest.fn();
 const fetchGroups = jest.fn();
 const groupToDelete = {
-  id: 7,
-  name: "test_group",
+  id: "6029d50dd6b2b9002bf08c28",
+  name: "testGroup",
 };
 
 beforeEach(() =>
